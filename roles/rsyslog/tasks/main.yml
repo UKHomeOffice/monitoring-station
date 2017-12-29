@@ -1,0 +1,14 @@
+---
+- name: setup rsyslog to listen for remote logs
+  copy:
+    dest: /etc/rsyslog.conf
+    src: rsyslog.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: restart rsyslog to reload config
+  systemd: 
+    state: restarted
+    name: rsyslog
+    enabled: yes

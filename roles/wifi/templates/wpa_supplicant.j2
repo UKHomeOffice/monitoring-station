@@ -1,0 +1,23 @@
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+country=GB
+
+network={
+	ssid="GovWifi"
+	key_mgmt=WPA-EAP
+	eap=PEAP
+	identity="{{ govwifi_username }}"
+        anonymous_identity="anonymous"
+	password="{{ govwifi_password }}"
+	phase2="auth=MSCHAPV2"
+        ca_cert="/etc/wpa_supplicant/Geotrust_PCA_G3_Root.pem"
+}
+
+network={
+	ssid="{{ wpapsk_ssid }}"
+	key_mgmt=WPA-PSK
+	psk="{{ wpapsk_psk }}"
+        proto=RSN
+        pairwise=CCMP
+        auth_alg=OPEN
+}

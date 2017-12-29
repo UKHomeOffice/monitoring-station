@@ -1,0 +1,90 @@
+---
+- name: Create Filebeat spool directory
+  file:
+    path: /var/lib/filebeat
+    owner: root
+    group: root
+    mode: 0750
+    state: directory
+
+- name: Create Filebeat log directory
+  file:
+    path: /var/log/filebeat
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+
+- name: Create Filebeat etc directory
+  file:
+    path: /etc/filebeat
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+
+- name: Create Filebeat etc/module directory
+  file:
+    path: /etc/filebeat/module
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+
+- name: copy Filebeat executable
+  copy:
+    dest: /usr/local/bin/filebeat
+    src: filebeat
+    mode: 0770
+    owner: root
+    group: root
+
+- name: copy Filebeat config
+  template:
+    dest: /etc/filebeat/filebeat.yml
+    src: filebeat.yml.j2
+    mode: 0640
+    owner: root
+    group: root
+
+- name: copy Filebeat init.d
+  copy:
+    dest: /etc/init.d/filebeat
+    src: filebeat.init.d
+    mode: 0775
+    owner: root
+    group: root
+
+- name: copy Filebeat systemd
+  copy:
+    dest: /lib/systemd/system/filebeat.service
+    src: filebeat.service
+    mode: 0644
+    owner: root
+    group: root
+
+- name: copy system.yml
+  copy:
+    dest: /etc/filebeat/module/system.yml
+    src: system.yml
+    mode: 0644
+    owner: root
+    group: root
+
+- name: copy traefik.yml
+  copy:
+    dest: /etc/filebeat/module/traefik.yml
+    src: traefik.yml
+    mode: 0644
+    owner: root
+    group: root
+
+- name: reload systemctl
+  systemd: 
+    daemon_reload: yes
+
+- name: start filebeat
+  systemd: 
+    state: restarted
+    name: filebeat
+    enabled: yes

@@ -1,0 +1,21 @@
+---
+- name: Add required packages
+  apt:
+    name: "openjdk-8-jre-headless"
+    state: installed
+  ignore_errors: True
+
+- name: Fudge missing server directory
+  synchronize:
+    src: /usr/lib/jvm/java-8-openjdk-armhf/jre/lib/arm/client
+    dest: /usr/lib/jvm/java-8-openjdk-armhf/jre/lib/arm/server
+  delegate_to: "{{ inventory_hostname }}"
+
+- name: Add required packages
+  apt:
+    name: "{{ item }}"
+    state: installed
+  with_items:
+    - openjdk-8-jre-headless
+    - ca-certificates-java
+    - default-jre-headless

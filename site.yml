@@ -1,0 +1,11 @@
+---
+- hosts: [all]
+  roles:
+  - base
+  - java
+  - wifi
+  - filebeat
+  - rsyslog
+  - mosquitto
+  - telegraf
+  - freeradius

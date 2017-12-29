@@ -1,0 +1,17 @@
+- name: Install Telegraf
+  apt:
+    deb: https://dl.influxdata.com/telegraf/releases/telegraf_{{ telegraph_version }}.deb
+
+- name: copy over Telegraf config file
+  template:
+    dest: /etc/telegraf/telegraf.conf
+    src: telegraf.conf.j2
+    owner: root
+    group: root
+    mode: 0644
+
+- name: restart Telegraf reload config
+  systemd: 
+    state: restarted
+    name: telegraf
+    enabled: yes

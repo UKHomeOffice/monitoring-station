@@ -1,0 +1,16 @@
+---
+- name: Install wpa with GovWifi
+  template:
+    src: wpa_supplicant.j2
+    dest: /etc/wpa_supplicant/wpa_supplicant.conf
+    owner: root
+    group: root
+    mode: 0600
+
+- name: Install GovWifi CA Certificate
+  copy:
+    src: Geotrust_PCA_G3_Root.pem
+    dest: /etc/wpa_supplicant/Geotrust_PCA_G3_Root.pem
+    owner: root
+    group: root
+    mode: 0600

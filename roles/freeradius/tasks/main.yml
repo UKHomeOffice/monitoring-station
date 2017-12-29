@@ -1,0 +1,24 @@
+---
+- name: Add required packages
+  apt:
+    name: "{{ item }}"
+    state: installed
+  with_items:
+    - freeradius
+    - freeradius-common
+    - freeradius-config
+    - freeradius-utils
+
+- name: Copy Freeradius Config File
+  copy:
+    src: radiusd.conf
+    dest: /etc/freeradius/radiusd.conf
+    owner: root
+    group: root
+    mode: 0640
+
+- name: restart freeradius reload config
+  systemd: 
+    state: restarted
+    name: freeradius
+    enabled: yes

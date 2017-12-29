@@ -1,0 +1,14 @@
+---
+- name: Add required mosquitto packages
+  apt:
+    name: "{{ item }}"
+    state: installed
+  with_items:
+    - mosquitto
+    - mosquitto-clients
+
+- name: restart mosquitto to reload config
+  systemd: 
+    state: restarted
+    name: mosquitto
+    enabled: yes
